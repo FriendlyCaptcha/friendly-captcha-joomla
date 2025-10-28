@@ -41,14 +41,14 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 	 * @var    array
 	 * @since  1.0.0
 	 */
-	private static $errorCodes = array(
+	private static $errorCodes = [
 		'secret_missing',
 		'secret_invalid',
 		'solution_missing',
 		'bad_request',
 		'solution_invalid',
 		'solution_timeout_or_duplicate',
-	);
+	];
 
 	/**
 	 * Supported script's built-in languages.
@@ -56,7 +56,7 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 	 * @var    array
 	 * @since  1.0.0
 	 */
-	private static $languages = array(
+	private static $languages = [
 		'en',
 		'fr',
 		'de',
@@ -94,7 +94,7 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 		'th',
 		'kr',
 		'ar',
-	);
+	];
 
 	/**
 	 * Subresource integrity (SRI) hashes.
@@ -102,13 +102,13 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 	 * @var    array
 	 * @since  1.1.0
 	 */
-	private static $sriHashes = array(
+	private static $sriHashes = [
 		'widget.js' => 'sha384-bDcCvqtL2t/3xHHjreWK/0cSxHzV1s2cDeCViSX1oVZqNf3fgKTqA0C6ateqCmip',
 		'widget.min.js' => 'sha384-344krdL8/dCWbYTwPpunVq4cG1ZuhEV9s4F3EyEAjo9bvpROhBAZoqSu5M6n8EQY',
 		'widget.module.js' => 'sha384-HoqNPMPnveXKHVAAzhUNV7cEDnCimiihyM8UK/NeGPrZDlvGEwpPeC9GHR6ybEw2',
 		'widget.module.min.js' => 'sha384-lz4OKju2av+OYhIe9iWjPNIGhEktRtZ5LB5DiJBoQlP8sm/6yE9gzZltQcOy/Jea',
 		'widget.polyfilled.min.js' => 'sha384-o6dGARcN5TQtRkzU1xuPKw5a59ZZRosPNEriWAVeL+nJzM7ADSXH7lvc5fxVeX5M',
-	);
+	];
 
 	/**
 	 * Makes HTTP request to remote service to verify user's answer.
@@ -147,11 +147,11 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 		}
 
 		$body = null;
-		$data = array(
+		$data = [
 			'solution' => $code,
 			'secret' => $this->params->get('secret'),
 			'sitekey' => $this->params->get('siteKey'),
-		);
+		];
 
 		// Try EU endpoint if selected.
 		if ($this->params->get('euEndpoint'))
@@ -241,10 +241,10 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 		$language = $this->app->getLanguage();
 		$language->load('plg_captcha_friendlycaptcha', JPATH_ADMINISTRATOR);
 
-		$attributes = array(
+		$attributes = [
 			'data-sitekey' => $this->params->get('siteKey', ''),
 			'class' => rtrim('frc-captcha ' . $this->params->get('theme') . ' ' . $class),
-		);
+		];
 
 		if ($id !== null && $id !== '')
 		{
@@ -275,10 +275,10 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 		$languageTag = strtolower(str_replace('-', '_', $language->getTag()));
 
 		// Use full tag first, fall back to short tag.
-		$languageTags = array(
+		$languageTags = [
 			$languageTag,
 			strstr($languageTag, '_', true),
-		);
+		];
 
 		if ($foundLanguages = array_intersect($languageTags, self::$languages))
 		{
@@ -339,26 +339,26 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 
 			$document->addScript(
 				$baseUrl . self::CHALLENGE_VERSION . '/' . $moduleFilename,
-				array(),
-				array(
+				[],
+				[
 					'type' => 'module',
 					'defer' => true,
 					'crossorigin' => 'anonymous',
 					'referrerpolicy' => 'no-referrer',
 					'integrity' => self::$sriHashes[$moduleFilename],
-				)
+				]
 			);
 
 			$document->addScript(
 				$baseUrl . self::CHALLENGE_VERSION . '/' . $legacyFilename,
-				array(),
-				array(
+				[],
+				[
 					'nomodule' => 'true',
 					'defer' => true,
 					'crossorigin' => 'anonymous',
 					'referrerpolicy' => 'no-referrer',
 					'integrity' => self::$sriHashes[$legacyFilename],
-				)
+				]
 			);
 
 			return true;
@@ -367,14 +367,14 @@ final class PlgCaptchaFriendlyCaptcha extends CMSPlugin
 		HTMLHelper::_(
 			'script',
 			'plg_captcha_friendlycaptcha/widget.module.min.js',
-			array('relative' => true, 'version' => self::CHALLENGE_VERSION),
-			array('type' => 'module', 'defer' => true)
+			['relative' => true, 'version' => self::CHALLENGE_VERSION],
+			['type' => 'module', 'defer' => true]
 		);
 		HTMLHelper::_(
 			'script',
 			'plg_captcha_friendlycaptcha/' . $legacyFilename,
-			array('relative' => true, 'version' => self::CHALLENGE_VERSION),
-			array('nomodule' => 'true', 'defer' => true)
+			['relative' => true, 'version' => self::CHALLENGE_VERSION],
+			['nomodule' => 'true', 'defer' => true]
 		);
 
 		return true;
