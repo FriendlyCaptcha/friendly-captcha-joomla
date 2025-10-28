@@ -73,7 +73,7 @@ final class PlgCaptchaFriendlyCaptchaInstallerScript
 	 * @var    string
 	 * @since  1.0.1
 	 */
-	private $joomlaUnsupported = '6.0';
+	private $joomlaUnsupported = '7.0';
 
 	/**
 	 * Minimum supported PHP version.
@@ -89,7 +89,7 @@ final class PlgCaptchaFriendlyCaptchaInstallerScript
 	 * @var    string
 	 * @since  1.0.1
 	 */
-	private $phpUnsupported = '8.5';
+	private $phpUnsupported = '9.0';
 
 	/**
 	 * Function called before extension installation/update/removal procedure commences
